@@ -73,4 +73,4 @@ Du kannst mehrmals z.B. ```from controller import Robot``` importieren. Python h
 
 —
 
-Lass mal unsre ganze Codebase in Functional Programming machen ; )
+Lass mal unsre ganze Codebase in Functional Programming machen ; ) Bitte nicht!
