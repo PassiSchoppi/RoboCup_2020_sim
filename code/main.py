@@ -7,4 +7,4 @@ import robot
 import state
 
 while robot.robot.step(global_variables.timeStep) != -1:
-    state.state_change()
+    state.change_state()

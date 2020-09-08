@@ -2,12 +2,12 @@ import robot
 
 
 def in_front():
-    return robot.frontSensors[0].getValue() < 0.08
+    return robot.frontSensors[0].getValue() < 0.075
 
 
 def on_right():
-    return robot.frontSensors[0].getValue() < 0.08
+    return robot.rightSensors[0].getValue() < 0.075
 
 
 def on_left():
-    return robot.frontSensors[0].getValue() < 0.08
+    return robot.leftSensors[0].getValue() < 0.075
