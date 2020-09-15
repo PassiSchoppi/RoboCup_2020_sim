@@ -53,7 +53,6 @@ def index_of_smallest_element(array):
 
 def search_for_unvisited(start_point, skip_array):
     skip_array.append(start_point)
-    print(skip_array)
     if not map_array[start_point[0]][start_point[1]].visited:
         return 1
     results = [0, 0, 0, 0]
@@ -96,6 +95,20 @@ def search_for_unvisited(start_point, skip_array):
         return results[result_index] + 1
     else:
         return 0
+
+
+def where_to_drive():
+    distances = [0, 0, 0, 0]
+    if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.NORTH]:
+        distances[global_variables.NORTH] = map_array[robot.position[0]][robot.position[1] + 1].distance_to_unvisited
+    if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.EAST]:
+        distances[global_variables.EAST] = map_array[robot.position[0] + 1][robot.position[1]].distance_to_unvisited
+    if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.SOUTH]:
+        distances[global_variables.SOUTH] = map_array[robot.position[0]][robot.position[1] - 1].distance_to_unvisited
+    if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.WEST]:
+        distances[global_variables.WEST] = map_array[robot.position[0] - 1][robot.position[1]].distance_to_unvisited
+    print(distances)
+    return index_of_smallest_element(distances)
 
 
 def update_field():
@@ -174,10 +187,13 @@ def print_map():
 
             # visited status of that field
             # print(map_array[i][o].distance_to_unvisited, end="")
-            if map_array[x][y].visited:
-                print(" ", end="")
+            if robot.position[0] == x and robot.position[1] == y:
+                print("●", end="")
             else:
-                print("»", end="")
+                if map_array[x][y].visited:
+                    print(" ", end="")
+                else:
+                    print("»", end="")
 
             print(map_array[x][y].distance_to_unvisited, end="")
 

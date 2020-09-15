@@ -25,7 +25,8 @@ def turn_right():
     movements.turn_right()
     global_variables.counter += 1
     if global_variables.counter > 27:
-        global_variables.state = 1
+        global_variables.state = 2
+        map.move_to(robot.facing)
         global_variables.counter = 0
     return 0
 
@@ -35,7 +36,17 @@ def turn_left():
     movements.turn_left()
     global_variables.counter += 1
     if global_variables.counter > 27:
-        global_variables.state = 1
+        global_variables.state = 2
+        map.move_to(robot.facing)
+        global_variables.counter = 0
+    return 0
+
+
+def go_back():
+    movements.turn_left()
+    global_variables.counter += 1
+    if global_variables.counter > 27:
+        global_variables.state = 4
         global_variables.counter = 0
     return 0
 
@@ -48,7 +59,21 @@ def decide_new_state():
     print('F: ', robot.facing)
     map.update_field()
     map.print_map()
-    if not wall.in_front():
+
+    direction_to_go = map.where_to_drive()
+    print('direction_to_go_to: ', direction_to_go)
+    if direction_to_go == map.convert_compass_direction(global_variables.FRONT):
+        global_variables.state = 2
+        map.move_to(robot.facing)
+    elif direction_to_go == map.convert_compass_direction(global_variables.RIGHT):
+        global_variables.state = 3
+        robot.facing = map.convert_compass_direction(global_variables.RIGHT)
+    elif direction_to_go == map.convert_compass_direction(global_variables.LEFT):
+        global_variables.state = 4
+        robot.facing = map.convert_compass_direction(global_variables.LEFT)
+    elif direction_to_go == map.convert_compass_direction(global_variables.BACK):
+        global_variables.state = 5
+    '''if not wall.in_front():
         map.move_to(robot.facing)
         global_variables.state = 2
         return 0
@@ -61,17 +86,7 @@ def decide_new_state():
         print('turning left')
         robot.facing = map.convert_compass_direction(global_variables.LEFT)
         global_variables.state = 4
-        return 0
-    return 0
-
-
-def go_back():
-    # TODO not tested
-    movements.drive_back()
-    global_variables.counter += 1
-    if global_variables.counter > 27:
-        global_variables.state = 1
-        global_variables.counter = 0
+        return 0'''
     return 0
 
 
