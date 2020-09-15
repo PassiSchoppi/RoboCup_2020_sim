@@ -33,8 +33,69 @@ def convert_compass_direction(compass_or_direction):
     return matrix[robot.facing][compass_or_direction]
 
 
-def get_direction_to_go():
-    return 0
+def index_of_smallest_element(array):
+    index = 0
+    if array[index] != 0:
+        index = 0
+    elif array[1] != 0:
+        index = 1
+    elif array[2] != 0:
+        index = 2
+    elif array[3] != 0:
+        index = 3
+    else:
+        return 5
+    for i in range(1, 4):
+        if array[i] < array[index] and array[i] != 0:
+            index = i
+    return index
+
+
+def search_for_unvisited(start_point, skip_array):
+    skip_array.append(start_point)
+    print(skip_array)
+    if not map_array[start_point[0]][start_point[1]].visited:
+        return 1
+    results = [0, 0, 0, 0]
+
+    # north child
+    child = [start_point[0], start_point[1] + 1]
+    if not map_array[start_point[0]][start_point[1]].walls[global_variables.NORTH] and not (child in skip_array):
+        skip_new = skip_array.copy()
+        results[global_variables.NORTH] = search_for_unvisited(child, skip_new)
+    else:
+        results[global_variables.NORTH] = 0
+
+    # east child
+    child = [start_point[0] + 1, start_point[1]]
+    if not map_array[start_point[0]][start_point[1]].walls[global_variables.EAST] and not (child in skip_array):
+        skip_new = skip_array.copy()
+        results[global_variables.EAST] = search_for_unvisited(child, skip_new)
+    else:
+        results[global_variables.EAST] = 0
+
+    # south child
+    child = [start_point[0], start_point[1] - 1]
+    if not map_array[start_point[0]][start_point[1]].walls[global_variables.SOUTH] and not (child in skip_array):
+        skip_new = skip_array.copy()
+        results[global_variables.SOUTH] = search_for_unvisited(child, skip_new)
+    else:
+        results[global_variables.SOUTH] = 0
+
+    # west child
+    child = [start_point[0] - 1, start_point[1]]
+    if not map_array[start_point[0]][start_point[1]].walls[global_variables.WEST] and not (child in skip_array):
+        skip_new = skip_array.copy()
+        results[global_variables.WEST] = search_for_unvisited(child, skip_new)
+    else:
+        results[global_variables.WEST] = 0
+
+    # get nearest
+    result_index = index_of_smallest_element(results)
+    if result_index != 5:
+        return results[result_index] + 1
+    else:
+        return 0
 
 
 def update_field():
@@ -58,6 +119,13 @@ def update_field():
 
     # mark current field as visited
     map_array[robot.position[0]][robot.position[1]].visited = 1
+
+    # get distance to nearest unvisited
+    for x in range(0, global_variables.map_size):
+        for y in range(0, global_variables.map_size):
+            child = [x, y]
+            skip = []
+            map_array[x][y].distance_to_unvisited = search_for_unvisited(child, skip)
 
 
 def move_to(compass):
@@ -107,9 +175,11 @@ def print_map():
             # visited status of that field
             # print(map_array[i][o].distance_to_unvisited, end="")
             if map_array[x][y].visited:
-                print("░░", end="")
+                print(" ", end="")
             else:
-                print("┐└", end="")
+                print("»", end="")
+
+            print(map_array[x][y].distance_to_unvisited, end="")
 
             # east wall of that field
             if map_array[x][y].walls[global_variables.EAST]:
@@ -136,6 +206,3 @@ def print_map():
         print()
 
     return 0
-
-
-print_map()

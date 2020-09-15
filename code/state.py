@@ -11,6 +11,7 @@ def nothing():
 
 
 def go_forward():
+    # TODO swamp does not work
     movements.drive_straight()
     global_variables.counter += 1
     if global_variables.counter > 29:
