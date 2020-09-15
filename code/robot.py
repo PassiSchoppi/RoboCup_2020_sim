@@ -4,6 +4,10 @@ import global_variables
 # init the robot
 robot = Robot()
 
+# init orientation variables
+position = [round(global_variables.map_size/2), round(global_variables.map_size/2)]
+facing = global_variables.NORTH
+
 # init wheels
 wheel_left = robot.getMotor("left wheel motor")
 wheel_right = robot.getMotor("right wheel motor")
