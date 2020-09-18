@@ -1,6 +1,6 @@
 from controller import Robot
 
-max_velocity = 6.28
+max_velocity = 0
 
 #        [left wheel speed, right wheel speed]
 speeds = [max_velocity,max_velocity]
