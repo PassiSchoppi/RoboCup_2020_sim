@@ -1,6 +1,6 @@
 import robot
 
-max_velocity = 0
+max_velocity: float = 6.28
 
 #        [left wheel speed, right wheel speed]
 speeds = [0, 0]

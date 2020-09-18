@@ -25,3 +25,20 @@ rightSensors[1].enable(global_variables.timeStep)
 frontSensors = [robot.getDistanceSensor("ps7"), robot.getDistanceSensor("ps0")]
 frontSensors[0].enable(global_variables.timeStep)
 frontSensors[1].enable(global_variables.timeStep)
+
+# init cameras
+camera = robot.getCamera("camera_centre")
+camera.enable(global_variables.timeStep)
+cameraR = robot.getCamera("camera_right")
+cameraR.enable(global_variables.timeStep)
+cameraL = robot.getCamera("camera_left")
+cameraL.enable(global_variables.timeStep)
+
+colour_camera = robot.getCamera("colour_sensor")
+colour_camera.enable(global_variables.timeStep)
+
+# other stuff
+emitter = robot.getEmitter("emitter")
+
+gps = robot.getGPS("gps")
+gps.enable(global_variables.timeStep)

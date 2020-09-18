@@ -3,7 +3,10 @@ timeStep = 32
 state = 1
 
 # only even numbers
-map_size = 20
+map_size = 100
+
+hole_colour = b'\x1e\x1e\x1e\xff'
+swamp_colour = b'R\x89\xa7\xff'
 
 # TODO löschen
 counter = 0

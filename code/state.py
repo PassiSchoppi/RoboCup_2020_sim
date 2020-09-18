@@ -54,14 +54,14 @@ def go_back():
 def decide_new_state():
     movements.stop()
 
-    print('X: ', robot.position[0])
-    print('Y: ', robot.position[1])
-    print('F: ', robot.facing)
+    # print('X: ', robot.position[0])
+    # print('Y: ', robot.position[1])
+    # print('F: ', robot.facing)
     map.update_field()
-    map.print_map()
+    # map.print_map()
 
     direction_to_go = map.where_to_drive()
-    print('direction_to_go_to: ', direction_to_go)
+    # print('direction_to_go_to: ', direction_to_go)
     if direction_to_go == map.convert_compass_direction(global_variables.FRONT):
         global_variables.state = 2
         map.move_to(robot.facing)
@@ -73,20 +73,6 @@ def decide_new_state():
         robot.facing = map.convert_compass_direction(global_variables.LEFT)
     elif direction_to_go == map.convert_compass_direction(global_variables.BACK):
         global_variables.state = 5
-    '''if not wall.in_front():
-        map.move_to(robot.facing)
-        global_variables.state = 2
-        return 0
-    if not wall.on_right():
-        print('turning right')
-        robot.facing = map.convert_compass_direction(global_variables.RIGHT)
-        global_variables.state = 3
-        return 0
-    if not wall.on_left():
-        print('turning left')
-        robot.facing = map.convert_compass_direction(global_variables.LEFT)
-        global_variables.state = 4
-        return 0'''
     return 0
 
 

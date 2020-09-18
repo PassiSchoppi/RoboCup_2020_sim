@@ -164,15 +164,7 @@ def print_map():
         for x in range(0, global_variables.map_size):
             # north wall
             if map_array[x][y].walls[global_variables.NORTH]:
-                if map_array[x][y].walls[global_variables.WEST]:
-                    print("█", end="")
-                else:
-                    print(" ", end="")
-                print("██", end="")
-                if map_array[x][y].walls[global_variables.EAST]:
-                    print("█", end="")
-                else:
-                    print(" ", end="")
+                print("████", end="")
             else:
                 print("    ", end="")
         print()
@@ -208,15 +200,7 @@ def print_map():
         for x in range(0, global_variables.map_size):
             # south wall of that field
             if map_array[x][y].walls[global_variables.SOUTH]:
-                if map_array[x][y].walls[global_variables.WEST]:
-                    print("█", end="")
-                else:
-                    print(" ", end="")
-                print("██", end="")
-                if map_array[x][y].walls[global_variables.EAST]:
-                    print("█", end="")
-                else:
-                    print(" ", end="")
+                print("████", end="")
             else:
                 print("    ", end="")
         print()
