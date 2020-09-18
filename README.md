@@ -8,6 +8,8 @@ Clone das Repo mit:
 git clone https://github.com/PassiSchoppi/RoboCup_2020_sim.git
 ```
 
+[https://github.com/Shadow149/RescueMaze](https://github.com/Shadow149/RescueMaze)
+
 Erstmal braucht du Python 3.7.
 Wenn du ```python``` in der Konsole laufen lässt, siehst du die Version.
 
@@ -73,4 +75,4 @@ Du kannst mehrmals z.B. ```from controller import Robot``` importieren. Python h
 
 —
 
-Lass mal unsre ganze Codebase in Functional Programming machen ; )
+Lass mal unsre ganze Codebase in Functional Programming machen ; ) Bitte nicht! Schade :(

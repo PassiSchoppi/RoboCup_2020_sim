@@ -1,24 +1,51 @@
-from controller import Robot
+import robot
 
 max_velocity = 0
 
 #        [left wheel speed, right wheel speed]
-speeds = [max_velocity,max_velocity]
+speeds = [0, 0]
+
+
+def drive_straight():
+    # set left wheel speed
+    speeds[0] = max_velocity
+    # set right wheel speed
+    speeds[1] = max_velocity
+    robot.wheel_left.setVelocity(speeds[0])
+    robot.wheel_right.setVelocity(speeds[1])
+
+
+def drive_back():
+    # set left wheel speed
+    speeds[0] = -0.4 * max_velocity
+    # set right wheel speed
+    speeds[1] = -0.4 * max_velocity
+    robot.wheel_left.setVelocity(speeds[0])
+    robot.wheel_right.setVelocity(speeds[1])
+
 
 def turn_right():
-    #set left wheel speed
-    speeds[0] = 0.6 * max_velocity
-    #set right wheel speed
-    speeds[1] = -0.2 * max_velocity
+    # set left wheel speed
+    speeds[0] = 0.4 * max_velocity
+    # set right wheel speed
+    speeds[1] = -0.4 * max_velocity
+    robot.wheel_left.setVelocity(speeds[0])
+    robot.wheel_right.setVelocity(speeds[1])
+
 
 def turn_left():
-    #set left wheel speed
-    speeds[0] = -0.2 * max_velocity
-    #set right wheel speed
-    speeds[1] = 0.6 * max_velocity
+    # set left wheel speed
+    speeds[0] = -0.4 * max_velocity
+    # set right wheel speed
+    speeds[1] = 0.4 * max_velocity
+    robot.wheel_left.setVelocity(speeds[0])
+    robot.wheel_right.setVelocity(speeds[1])
 
-def spin():
-    #set left wheel speed
-    speeds[0] = 0.6 * max_velocity
-    #set right wheel speed
-    speeds[1] = -0.6 * max_velocity
+
+def stop():
+    # set left wheel speed
+    speeds[0] = 0
+    # set right wheel speed
+    speeds[1] = 0
+    robot.wheel_left.setVelocity(speeds[0])
+    robot.wheel_right.setVelocity(speeds[1])
