@@ -17,9 +17,9 @@ def drive_straight():
 
 def drive_back():
     # set left wheel speed
-    speeds[0] = -0.2 * max_velocity
+    speeds[0] = -max_velocity/2
     # set right wheel speed
-    speeds[1] = -0.2 * max_velocity
+    speeds[1] = -max_velocity/2
     robot.wheel_left.setVelocity(speeds[0])
     robot.wheel_right.setVelocity(speeds[1])
 

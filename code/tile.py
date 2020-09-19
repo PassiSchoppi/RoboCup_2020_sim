@@ -2,14 +2,8 @@ import global_variables
 import robot
 
 
-def hex_to_rgb(value):
-    value = value.lstrip('#')
-    return list(int(value[i:i + 2], 16) for i in (0, 2, 4))
-
-
 def color():
     image = robot.colour_camera.getImage()
-    print(image)
     # if it is darker than hole_colour
     if image[0] <= global_variables.hole_colour[0] and \
             image[1] <= global_variables.hole_colour[1] and \
