@@ -3,6 +3,7 @@ import movements
 import wall
 import map
 import robot
+import time
 
 
 def nothing():
@@ -14,7 +15,9 @@ def go_forward():
     # TODO swamp does not work
     movements.drive_straight()
     global_variables.counter += 1
-    if global_variables.counter > 29:
+    if global_variables.counter > 58:
+        # TODO DONT DONT DONT DONT DONT DONT DONT DONT DONT DONT DONT DONT DONT DONT DONT DONT DONT DONT DONT DONT DONT
+        time.sleep(0.5)
         global_variables.state = 1
         global_variables.counter = 0
     return 0
@@ -24,7 +27,7 @@ def turn_right():
     # TODO state machine! no counter
     movements.turn_right()
     global_variables.counter += 1
-    if global_variables.counter > 27:
+    if global_variables.counter > 54:
         global_variables.state = 2
         map.move_to(robot.facing)
         global_variables.counter = 0
@@ -35,7 +38,7 @@ def turn_left():
     # TODO state machine! no counter
     movements.turn_left()
     global_variables.counter += 1
-    if global_variables.counter > 27:
+    if global_variables.counter > 54:
         global_variables.state = 2
         map.move_to(robot.facing)
         global_variables.counter = 0
@@ -45,7 +48,7 @@ def turn_left():
 def go_back():
     movements.turn_left()
     global_variables.counter += 1
-    if global_variables.counter > 27:
+    if global_variables.counter > 54:
         global_variables.state = 4
         global_variables.counter = 0
     return 0

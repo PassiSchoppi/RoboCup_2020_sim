@@ -6,7 +6,8 @@ state = 1
 map_size = 100
 
 hole_colour = b'\x1e\x1e\x1e\xff'
-swamp_colour = b'R\x89\xa7\xff'
+swamp_colour = b'R\x89\xa6\xff'
+silver_color = b'\x97\x97\x97\xff'
 
 # TODO löschen
 counter = 0
@@ -20,3 +21,8 @@ FRONT = 0
 RIGHT = 1
 BACK = 2
 LEFT = 3
+
+WHITE = 0
+BLACK = 1
+SWAMP = 2
+SILVER = 3

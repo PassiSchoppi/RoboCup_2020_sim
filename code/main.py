@@ -7,6 +7,8 @@ import robot
 import state
 import movements
 import take_image
+import tile
+import struct
 
 
 def smoth_vars(var):
