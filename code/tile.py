@@ -14,7 +14,8 @@ def color():
     if global_variables.swamp_colour[0] - tol <= image[0] <= global_variables.swamp_colour[0] + tol and \
             global_variables.swamp_colour[1] - tol <= image[1] <= global_variables.swamp_colour[1] + tol and \
             global_variables.swamp_colour[2] - tol <= image[2] <= global_variables.swamp_colour[2] + tol:
-        return global_variables.SWAMP
+        # TODO change to true color (global_variables.SWAMP)
+        return global_variables.BLACK
     # if it is around silver_color
     tol = 5
     if global_variables.silver_color[0] - tol <= image[0] <= global_variables.silver_color[0] + tol and \
