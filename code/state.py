@@ -13,19 +13,26 @@ def nothing():
 
 
 def go_forward():
-    # TODO swamp does not work
+    distance_to_drive = 0
     movements.drive_straight()
-    global_variables.counter += 1
     # when he sees a black tile
     if tile.color() == global_variables.BLACK:
         # flee back
         movements.stop()
         global_variables.state = 6
-        global_variables.counter = global_variables.counter -1
         # dont clear counter as we need this to decide how far back
         # mark the field as hole
         map.hole_in_front()
-    if global_variables.counter > 58:
+    if robot.facing == global_variables.NORTH:
+        distance_to_drive = robot.gps.getValues()[2] - (robot.latest_gps_position[2] - global_variables.field_size)
+    if robot.facing == global_variables.EAST:
+        distance_to_drive = - robot.gps.getValues()[0] + (robot.latest_gps_position[0] + global_variables.field_size)
+    if robot.facing == global_variables.SOUTH:
+        distance_to_drive = - robot.gps.getValues()[2] + (robot.latest_gps_position[2] + global_variables.field_size)
+    if robot.facing == global_variables.WEST:
+        distance_to_drive = robot.gps.getValues()[0] - (robot.latest_gps_position[0] - global_variables.field_size)
+    # print(distance_to_drive)
+    if distance_to_drive <= 0:
         # when he is done with going forward
         # then change location on map
         map.move_to(robot.facing)
@@ -76,10 +83,18 @@ def go_back():
 
 
 def flee_back():
-    # TODO swamp does not work
+    # TODO does not work
     movements.drive_back()
     global_variables.counter -= 1
     # when he sees a black tile
+    if robot.facing == global_variables.NORTH:
+        distance_to_drive = - robot.gps.getValues()[2] + robot.latest_gps_position[2]
+    if robot.facing == global_variables.EAST:
+        distance_to_drive = + robot.gps.getValues()[0] - robot.latest_gps_position[0]
+    if robot.facing == global_variables.SOUTH:
+        distance_to_drive = + robot.gps.getValues()[2] - robot.latest_gps_position[2]
+    if robot.facing == global_variables.WEST:
+        distance_to_drive = - robot.gps.getValues()[0] + robot.latest_gps_position[0]
     if global_variables.counter <= 0:
         # TODO remove sleep
         time.sleep(0.5)
@@ -109,6 +124,10 @@ def decide_new_state():
         global_variables.state = 4
     elif direction_to_go == map.convert_compass_direction(global_variables.BACK):
         global_variables.state = 5
+
+    print('updating latest_gps_values')
+    robot.latest_gps_position = robot.gps.getValues()
+
     return 0
 
 

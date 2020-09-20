@@ -42,3 +42,5 @@ emitter = robot.getEmitter("emitter")
 
 gps = robot.getGPS("gps")
 gps.enable(global_variables.timeStep)
+
+latest_gps_position = [0, 0, 0]

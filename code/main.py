@@ -29,6 +29,4 @@ while robot.robot.step(global_variables.timeStep) != -1:
     # print("right:", smoth_vars(robot.rightSensors[0].getValue()), end="")
     # print("@" * smoth_vars(robot.rightSensors[0].getValue()))
     state.change_state()
-    print(wall.on_left(), end=" ")
-    print(wall.in_front(), end=" ")
-    print(wall.on_right())
+    # print(robot.colour_camera.getImage())
