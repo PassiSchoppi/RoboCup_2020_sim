@@ -15,6 +15,11 @@ wheel_right = robot.getMotor("right wheel motor")
 wheel_left.setPosition(float("inf"))
 wheel_right.setPosition(float("inf"))
 
+left_pos_sensor = robot.getPositionSensor("left wheel sensor")
+left_pos_sensor.enable(global_variables.timeStep)
+right_pos_sensor = robot.getPositionSensor("right wheel sensor")
+right_pos_sensor.enable(global_variables.timeStep)
+
 # init sensors
 leftSensors = [robot.getDistanceSensor("ps5"), robot.getDistanceSensor("ps6")]
 leftSensors[0].enable(global_variables.timeStep)
@@ -25,6 +30,13 @@ rightSensors[1].enable(global_variables.timeStep)
 frontSensors = [robot.getDistanceSensor("ps7"), robot.getDistanceSensor("ps0")]
 frontSensors[0].enable(global_variables.timeStep)
 frontSensors[1].enable(global_variables.timeStep)
+
+# init heat/temperature sensor
+left_heat_sensor = robot.getLightSensor("left_heat_sensor")
+right_heat_sensor = robot.getLightSensor("right_heat_sensor")
+
+left_heat_sensor.enable(global_variables.timeStep)
+right_heat_sensor.enable(global_variables.timeStep)
 
 # init cameras
 camera = robot.getCamera("camera_centre")
@@ -44,3 +56,5 @@ gps = robot.getGPS("gps")
 gps.enable(global_variables.timeStep)
 
 latest_gps_position = [0, 0, 0]
+latest_lws_value = 0
+latest_rws_value = 0

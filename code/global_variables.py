@@ -9,9 +9,6 @@ hole_colour = b'ppp\xff'
 swamp_colour = b'\x82\xd2\xee\xff'
 silver_color = b'\x97\x97\x97\xff'
 
-# TODO löschen
-counter = 0
-
 NORTH = 0
 EAST = 1
 SOUTH = 2
@@ -27,9 +24,6 @@ BLACK = 1
 SWAMP = 2
 SILVER = 3
 
-# Default setting for the "messageSent" variable
-messageSent = False
-
 # Variables related to timers and delays
 startTime = 0
 duration = 0
@@ -37,3 +31,4 @@ victimDetectedGlobal = False
 victimTimer = 0
 
 field_size = 0.113
+quater_rotation_value = 2.15

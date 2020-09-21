@@ -23,7 +23,6 @@ for _ in range(0, global_variables.map_size):
 
 # convert compass to direction and back
 def convert_compass_direction(compass_or_direction):
-    # TODO
     matrix = [
         [0, 1, 2, 3],  # facing NORTH
         [1, 2, 3, 0],  # facing EAST

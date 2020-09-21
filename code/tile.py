@@ -15,7 +15,6 @@ def color():
     if global_variables.swamp_colour[0] - tolerance <= image[0] <= global_variables.swamp_colour[0] + tolerance and \
             global_variables.swamp_colour[1] - tolerance <= image[1] <= global_variables.swamp_colour[1] + tolerance and \
             global_variables.swamp_colour[2] - tolerance <= image[2] <= global_variables.swamp_colour[2] + tolerance:
-        # TODO change to true color (global_variables.SWAMP)
         return global_variables.SWAMP
     # if it is around silver_color
     tolerance = 5

@@ -10,6 +10,7 @@ import take_image
 import tile
 import struct
 import wall
+import victim
 
 
 def smoth_vars(var):
