@@ -32,7 +32,7 @@ def convert_compass_direction(compass_or_direction):
     return matrix[robot.facing][compass_or_direction]
 
 
-def index_of_smallest_element(array):
+def index_of_smallest_element(array, with_facing=False):
     index = 0
     if array[index] != 0:
         index = 0
@@ -47,6 +47,9 @@ def index_of_smallest_element(array):
     for i in range(1, 4):
         if array[i] < array[index] and array[i] != 0:
             index = i
+    if with_facing and not array[robot.facing] == 0 and array[robot.facing] <= array[index]:
+        print('just saved time with algorithm')
+        return robot.facing
     return index
 
 
@@ -79,7 +82,7 @@ def search_for_unvisited(start_point, skip_array):
 
     # north child
     child = [start_point[0], start_point[1] + 1]
-    if not map_array[start_point[0]][start_point[1]].walls[global_variables.NORTH] and not (child in skip_array)\
+    if not map_array[start_point[0]][start_point[1]].walls[global_variables.NORTH] and not (child in skip_array) \
             and not map_array[child[0]][child[1]].color == global_variables.BLACK:
         skip_new = skip_array.copy()
         results[global_variables.NORTH] = search_for_unvisited(child, skip_new)
@@ -88,7 +91,7 @@ def search_for_unvisited(start_point, skip_array):
 
     # east child
     child = [start_point[0] + 1, start_point[1]]
-    if not map_array[start_point[0]][start_point[1]].walls[global_variables.EAST] and not (child in skip_array)\
+    if not map_array[start_point[0]][start_point[1]].walls[global_variables.EAST] and not (child in skip_array) \
             and not map_array[child[0]][child[1]].color == global_variables.BLACK:
         skip_new = skip_array.copy()
         results[global_variables.EAST] = search_for_unvisited(child, skip_new)
@@ -97,7 +100,7 @@ def search_for_unvisited(start_point, skip_array):
 
     # south child
     child = [start_point[0], start_point[1] - 1]
-    if not map_array[start_point[0]][start_point[1]].walls[global_variables.SOUTH] and not (child in skip_array)\
+    if not map_array[start_point[0]][start_point[1]].walls[global_variables.SOUTH] and not (child in skip_array) \
             and not map_array[child[0]][child[1]].color == global_variables.BLACK:
         skip_new = skip_array.copy()
         results[global_variables.SOUTH] = search_for_unvisited(child, skip_new)
@@ -106,7 +109,7 @@ def search_for_unvisited(start_point, skip_array):
 
     # west child
     child = [start_point[0] - 1, start_point[1]]
-    if not map_array[start_point[0]][start_point[1]].walls[global_variables.WEST] and not (child in skip_array)\
+    if not map_array[start_point[0]][start_point[1]].walls[global_variables.WEST] and not (child in skip_array) \
             and not map_array[child[0]][child[1]].color == global_variables.BLACK:
         skip_new = skip_array.copy()
         results[global_variables.WEST] = search_for_unvisited(child, skip_new)
@@ -123,24 +126,24 @@ def search_for_unvisited(start_point, skip_array):
 
 def where_to_drive():
     distances = [0, 0, 0, 0]
-    if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.NORTH]\
+    if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.NORTH] \
             and not map_array[robot.position[0]][robot.position[1] + 1].color == global_variables.BLACK:
         distances[global_variables.NORTH] = map_array[robot.position[0]][robot.position[1] + 1].distance_to_unvisited
 
-    if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.EAST]\
-            and not map_array[robot.position[0]+1][robot.position[1]].color == global_variables.BLACK:
+    if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.EAST] \
+            and not map_array[robot.position[0] + 1][robot.position[1]].color == global_variables.BLACK:
         distances[global_variables.EAST] = map_array[robot.position[0] + 1][robot.position[1]].distance_to_unvisited
 
-    if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.SOUTH]\
+    if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.SOUTH] \
             and not map_array[robot.position[0]][robot.position[1] - 1].color == global_variables.BLACK:
         distances[global_variables.SOUTH] = map_array[robot.position[0]][robot.position[1] - 1].distance_to_unvisited
 
-    if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.WEST]\
+    if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.WEST] \
             and not map_array[robot.position[0] - 1][robot.position[1]].color == global_variables.BLACK:
         distances[global_variables.WEST] = map_array[robot.position[0] - 1][robot.position[1]].distance_to_unvisited
 
     print('distances of surrounding fields: ', distances)
-    return index_of_smallest_element(distances)
+    return index_of_smallest_element(distances, with_facing=True)
 
 
 def update_field():
