@@ -85,8 +85,8 @@ def go_back():
 def flee_back():
     # TODO does not work
     movements.drive_back()
-    global_variables.counter -= 1
     # when he sees a black tile
+    distance_to_drive = 0
     if robot.facing == global_variables.NORTH:
         distance_to_drive = - robot.gps.getValues()[2] + robot.latest_gps_position[2]
     if robot.facing == global_variables.EAST:
@@ -95,7 +95,7 @@ def flee_back():
         distance_to_drive = + robot.gps.getValues()[2] - robot.latest_gps_position[2]
     if robot.facing == global_variables.WEST:
         distance_to_drive = - robot.gps.getValues()[0] + robot.latest_gps_position[0]
-    if global_variables.counter <= 0:
+    if distance_to_drive <= 0:
         # TODO remove sleep
         time.sleep(0.5)
         # decide new state
