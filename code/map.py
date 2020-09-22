@@ -118,6 +118,7 @@ def search_for_unvisited(start_point, skip_array):
     # get nearest
     result_index = index_of_smallest_element(results)
     if result_index != 5:
+        # TODO consider swamps with longer time
         return results[result_index] + 1
     else:
         return 0
