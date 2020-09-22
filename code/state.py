@@ -29,15 +29,15 @@ def go_forward():
                             int(robot.gps.getValues()[2] * 100),
                             bytes('T', "utf-8"))
     else:
-        if not take_image.take_picture(robot.cameraC, debug=False) == 'e':
-            # movements.stop()
-            print('found vis victim')
-            while True:
-                victim.send_message(int(robot.gps.getValues()[0] * 100),
-                                    int(robot.gps.getValues()[2] * 100),
-                                    bytes('H', "utf-8"))
-        else:
-            movements.drive_straight()
+        # if not take_image.take_picture(robot.cameraC, debug=False) == 'e':
+        #     # movements.stop()
+        #     print('found vis victim')
+        #     while True:
+        #         victim.send_message(int(robot.gps.getValues()[0] * 100),
+        #                             int(robot.gps.getValues()[2] * 100),
+        #                             bytes('H', "utf-8"))
+        # else:
+        movements.drive_straight()
     # determine how far to drive
     distance_to_drive = 0
     if robot.facing == global_variables.NORTH:
@@ -166,13 +166,10 @@ def decide_new_state():
             print('SENDING "E" TO CONTROLLER!')
             victim.send_message(int(0),
                                 int(0),
-                                bytes('E', "utf-8"))
+                                bytes('E', 'utf-8'))
             print('DONE!!!!!!!!')
-            print('EXITING PROGRAM NOW!')
-            while True:
-                pass
-            # exit()
         else:
+            print('returning to start...')
             # mark starting tile as unvisited
             map.map_array[round(global_variables.map_size / 2)][round(global_variables.map_size / 2)].visited = False
 
