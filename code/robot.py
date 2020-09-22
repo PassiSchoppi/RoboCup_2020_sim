@@ -39,8 +39,8 @@ left_heat_sensor.enable(global_variables.timeStep)
 right_heat_sensor.enable(global_variables.timeStep)
 
 # init cameras
-camera = robot.getCamera("camera_centre")
-camera.enable(global_variables.timeStep)
+cameraC = robot.getCamera("camera_centre")
+cameraC.enable(global_variables.timeStep)
 cameraR = robot.getCamera("camera_right")
 cameraR.enable(global_variables.timeStep)
 cameraL = robot.getCamera("camera_left")

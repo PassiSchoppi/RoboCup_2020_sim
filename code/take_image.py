@@ -1,11 +1,25 @@
 import cv2
 import numpy as np
-import sys
-
 import image_function
 
-path = sys.path[-1]
+path = 'D:/Programmieren/RoboCup2020/RoboCup_2020_sim/code/'
 
+
+# def write(array, dataname):
+#    dataname = path + 'txt_info/' + dataname
+#    try:
+#        os.remove(dataname)
+#    except:
+#        x = 0
+
+#    file = open(dataname, 'w')
+
+#    for i in range(0, len(array)):
+#        for j in range(0, len(array[0])):
+#            file.write(str(array[i][j]) + ', ')
+
+#        file.write('\n')
+#    file.close
 
 def take_picture(camera, debug):
     img = camera.getImage()
@@ -20,12 +34,39 @@ def take_picture(camera, debug):
     edit = [edit[offset:offset + width] for offset in range(0, width * height, width)]  # edit[height][width]
     for i in range(height):
         for j in range(width):
-            if gray[i * 2][j * 2] < 75:  # Grenzwet: 75
+            if (gray[i * 2][j * 2] < 75):  # Grenzwet: 75
                 edit[i].append(1)
             else:
                 edit[i].append(0)
 
+    # for i in range(height):          #geht jeden Farbwert des Arrays durch, unter einem bestimmten Grenzwert wird dieser Pixel als 1 bzw. schwarz definiert
+    #    for j in range(width):       #ueber dem Grenzwert als weiss bzw. 0
+    #        if (gray[i][j] < 75):    #Grenzwet: 75
+    #            edit[i][j] = 1
+    #        else:
+    #            edit[i][j] = 0
+
     image_function.write(edit, 'edit.txt')
+
+    # width = int(len(edit[0]) / 2) - 1
+    # height = int(len(edit) / 2) - 1
+
+    # if (debug):
+    #    print(height)
+    #    print(width)
+
+    # smaller_edit = []
+    # smaller_edit = [smaller_edit[offset:offset+width] for offset in range(0, width*height, width)] # edit[height][width]
+    # for i in range(height):
+    #    for j in range(width):
+    #        smaller_edit[i].append(0)
+    # if debug:
+    #    print(len(smaller_edit[0]))
+    #    print(len(smaller_edit))
+
+    # for i in range(height):
+    #    for j in range(width):
+    #        smaller_edit[i][j] = edit[i * 2][j * 2]
 
     smaller_edit = edit
 
@@ -34,17 +75,17 @@ def take_picture(camera, debug):
     num = 1
     for i in range(width):  # sucht nach schwarzen Flaechen(blops)
         for j in range(height):  # jeder Blop erhaelt einen eigenen Index
-            if smaller_edit[i][j] == 1:
+            if (smaller_edit[i][j] == 1):
                 num = num + 1
                 image_function.blop_naming(i, j, num, height, width, smaller_edit)
 
     image_function.write(smaller_edit, 'blop.txt')
 
     for i in range(height):  # geht die Raender des Bildes ab
-        if smaller_edit[0][i] >= 1:  # sucht nach Blops, die am Rand liegen
+        if (smaller_edit[0][i] >= 1):  # sucht nach Blops, die am Rand liegen
             image_function.blop_deleting(0, i, 0, height, width,
                                          smaller_edit)  # ueberschreibt diese Blops rekursiev mit Null
-        if smaller_edit[width - 1][i] >= 1:
+        if (smaller_edit[width - 1][i] >= 1):
             image_function.blop_deleting(width - 1, i, 0, height, width, smaller_edit)
 
     image_function.write(smaller_edit, 'border_less.txt')
@@ -56,12 +97,12 @@ def take_picture(camera, debug):
     for i in range(0, width):  # das Array wird nach den Indexen abgesucht
         for j in range(0, height):  # Haeufigkeit des einzelnen Indexen wird in Array festgehalten
             for k in range(0, num + 1):
-                if smaller_edit[i][j] == k:
+                if (smaller_edit[i][j] == k):
                     index[k] = index[k] + 1
 
     if debug:
         for l in range(0, len(index)):
-            print(f'{str(l)}: {str(index[l])}')
+            print(str(l) + ': ' + str(index[l]))
 
     up = height
     down = 0
@@ -70,7 +111,7 @@ def take_picture(camera, debug):
         if (index[k] > 300) or (index[k] < 30):  # maximal bzw minimal Groesse eines Blopes
             for i in range(1, width):
                 for j in range(1, height):  # ueberschreibt jeden uebrigen Blop der zu Gross bzw. zu Klein ist mit Null
-                    if smaller_edit[i][j] == k:
+                    if (smaller_edit[i][j] == k):
                         smaller_edit[i][j] = 0
 
     image_function.write(smaller_edit, 'letter_only.txt')
@@ -80,27 +121,30 @@ def take_picture(camera, debug):
 
     for i in range(2, width):
         for j in range(2, height):
-            if smaller_edit[i][j] != 0:
-                if black_2[1] < j:
+            if (smaller_edit[i][j] != 0):
+                if (black_2[1] < j):
                     black_2[1] = j + 2
 
     for j in range(2, height):
         for i in range(2, width):
-            if smaller_edit[i][j] != 0:
-                if black_2[0] < i:
+            if (smaller_edit[i][j] != 0):
+                if (black_2[0] < i):
                     black_2[0] = i + 2
 
     for i in range(2, width - 2):
         for j in range(2, height - 2):
-            if smaller_edit[width - i][height - j] != 0:
-                if black_1[1] > height - j:
+            if (smaller_edit[width - i][height - j] != 0):
+                if (black_1[1] > height - j):
                     black_1[1] = height - j - 2
 
     for j in range(2, height - 2):
         for i in range(2, width - 2):
-            if smaller_edit[width - i][height - j] != 0:
-                if black_1[0] > width - i:
+            if (smaller_edit[width - i][height - j] != 0):
+                if (black_1[0] > width - i):
                     black_1[0] = width - i - 2
+
+    # smaller_edit[black_1[0]][black_1[1]] = 111
+    # smaller_edit[black_2[0]][black_2[1]] = 222
 
     image_function.write(smaller_edit, 'point.txt')
 
@@ -117,7 +161,7 @@ def take_picture(camera, debug):
 
     image_function.write(crop, 'crop.txt')
 
-    if len(crop) > 0:
+    if (len(crop) > 0):
         width = len(crop)
         height = len(crop[1])
         letter = 0
@@ -136,14 +180,14 @@ def take_picture(camera, debug):
         hit_4 = False
 
         for k in range(1, round(width / 3)):
-            if crop[k][round(height / 2)] != 0:
+            if (crop[k][round(height / 2)] != 0):
                 hit_1 = True
-            if crop[width - k][round(height / 2)] != 0:
+            if (crop[width - k][round(height / 2)] != 0):
                 hit_3 = True
         for k in range(1, round(height / 3)):
-            if crop[round(width / 2)][k] != 0:
+            if (crop[round(width / 2)][k] != 0):
                 hit_2 = True
-            if crop[round(width / 2)][height - k] != 0:
+            if (crop[round(width / 2)][height - k] != 0):
                 hit_4 = True
 
         if debug:
@@ -154,29 +198,29 @@ def take_picture(camera, debug):
 
         letter = False
 
-        if not hit_1 and hit_2 and not hit_3 and not hit_4:
-            if debug:
-                print('H')
+        if not (hit_1) and (hit_2) and not (hit_3) and not (hit_4):
+            print('H')
+            # os.rename('images/insert/' + img_name, 'images/letter/H/' + img_name)
             letter = True
             return 'H'
-        if hit_1 and not hit_2 and hit_3 and hit_4:
-            if debug:
-                print('S')
+        if (hit_1) and not (hit_2) and (hit_3) and (hit_4):
+            print('S')
+            # os.rename('images/insert/' + img_name, 'images/letter/S/' + img_name)
             letter = True
             return 'S'
-        if not hit_1 and hit_2 and hit_3 and hit_4:
-            if debug:
-                print('U')
+        if not (hit_1) and (hit_2) and (hit_3) and (hit_4):
+            print('U')
+            # os.rename('images/insert/' + img_name, 'images/letter/U/' + img_name)
             letter = True
             return 'U'
-        if not letter:
-            if debug:
-                print('no letter')
+        if not (letter):
+            # os.rename('images/insert/' + img_name, 'images/#/' + img_name)
+            print('no letter')
             return 'e'
 
-        # print('')
+        print('')
     else:
-        pass
-        # print('weg')
-        # print('')
+        # os.rename('images/insert/' + img_name, 'images/#/' + img_name)
+        print('weg')
+        print('')
     return 'e'

@@ -15,6 +15,8 @@ def drive_straight():
     speeds[1] = max_velocity - .2
     mult = 100
     if robot.facing == global_variables.NORTH:
+        pos_to_go = [robot.latest_gps_position[0] + global_variables.map_size,
+                     robot.latest_gps_position[1] + global_variables.map_size]
         speeds[0] = speeds[0] + mult * (robot.latest_gps_position[0] - robot.gps.getValues()[0])
         speeds[1] = speeds[1] - mult * (robot.latest_gps_position[0] - robot.gps.getValues()[0])
     if robot.facing == global_variables.EAST:

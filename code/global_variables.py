@@ -24,11 +24,7 @@ BLACK = 1
 SWAMP = 2
 SILVER = 3
 
-# Variables related to timers and delays
-startTime = 0
-duration = 0
-victimDetectedGlobal = False
-victimTimer = 0
+found_vis_victim = False
 
 field_size = 0.113
-quater_rotation_value = 2.15
+quarter_rotation_value = 2.15

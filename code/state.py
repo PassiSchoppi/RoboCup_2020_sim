@@ -6,6 +6,7 @@ import robot
 import time
 import tile
 import victim
+import take_image
 
 
 def nothing():
@@ -28,7 +29,15 @@ def go_forward():
                             int(robot.gps.getValues()[2] * 100),
                             bytes('T', "utf-8"))
     else:
-        movements.drive_straight()
+        if not take_image.take_picture(robot.cameraC, debug=False) == 'e':
+            # movements.stop()
+            print('found vis victim')
+            while True:
+                victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                    int(robot.gps.getValues()[2] * 100),
+                                    bytes('H', "utf-8"))
+        else:
+            movements.drive_straight()
     # determine how far to drive
     distance_to_drive = 0
     if robot.facing == global_variables.NORTH:
@@ -59,7 +68,7 @@ def turn_right():
         movements.turn_right()
     distance_to_drive = (robot.left_pos_sensor.getValue() - robot.latest_lws_value) - (
                 robot.right_pos_sensor.getValue() - robot.latest_rws_value)
-    if distance_to_drive >= 2 * global_variables.quater_rotation_value:
+    if distance_to_drive >= 2 * global_variables.quarter_rotation_value:
         global_variables.state = 2
         robot.facing = map.convert_compass_direction(global_variables.RIGHT)
         print('done turning right')
@@ -76,7 +85,7 @@ def turn_left():
         movements.turn_left()
     distance_to_drive = (robot.right_pos_sensor.getValue() - robot.latest_rws_value) - (
             robot.left_pos_sensor.getValue() - robot.latest_lws_value)
-    if distance_to_drive >= 2 * global_variables.quater_rotation_value:
+    if distance_to_drive >= 2 * global_variables.quarter_rotation_value:
         global_variables.state = 2
         robot.facing = map.convert_compass_direction(global_variables.LEFT)
         print('done turning left')
@@ -94,7 +103,7 @@ def go_back():
         movements.turn_left()
     distance_to_drive = (robot.right_pos_sensor.getValue() - robot.latest_rws_value) - (
             robot.left_pos_sensor.getValue() - robot.latest_lws_value)
-    if distance_to_drive >= 2 * global_variables.quater_rotation_value:
+    if distance_to_drive >= 2 * global_variables.quarter_rotation_value:
         # turn left second time
         global_variables.state = 4
         robot.facing = map.convert_compass_direction(global_variables.LEFT)

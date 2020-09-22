@@ -48,7 +48,6 @@ def index_of_smallest_element(array, with_facing=False):
         if array[i] < array[index] and array[i] != 0:
             index = i
     if with_facing and not array[robot.facing] == 0 and array[robot.facing] <= array[index]:
-        print('just saved time with algorithm')
         return robot.facing
     return index
 
