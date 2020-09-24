@@ -1,17 +1,26 @@
-import sys
+try:
+    import sys
+    import os
+except:
+    print('Please Make Sure You Have The Right Packages And Versions Installed!')
+    exit(0)
 
 sys.path.append('C:\\Users\\kalli\\Documents\\RoboCup_2020_sim\\code')
 
-import global_variables
-import robot
-import state
-import movements
-import take_image
-import tile
-import struct
-import wall
-import victim
-import time
+try:
+    import global_variables
+    import robot
+    import state
+    import movements
+    import take_image
+    import tile
+    import struct
+    import wall
+    import victim
+    import time
+    import math
+except:
+    print('Please Make Sure You Have Put The Right Path To The Code Directory!\n(main.py Line 8)')
 
 first = True
 second = False
@@ -26,36 +35,26 @@ while robot.robot.step(global_variables.timeStep) != -1:
     if robot.facing == 5:
         robot.wheel_left.setVelocity(movements.max_velocity / 2)
         robot.wheel_right.setVelocity(movements.max_velocity / 2)
-        print('1: ', robot.gps.getValues())
-        print('2: ', location)
         acc = 3
         if round(robot.gps.getValues()[0], acc) > round(location[0], acc):
-            print(round(robot.gps.getValues()[0], acc), end=" > ")
-            print(round(location[0], acc))
             robot.wheel_left.setVelocity(0)
             robot.wheel_right.setVelocity(0)
             robot.facing = global_variables.EAST
             print('found facing direction: ', robot.facing)
             second = True
         elif round(robot.gps.getValues()[0], acc) < round(location[0], acc):
-            print(round(robot.gps.getValues()[0], acc), end=" < ")
-            print(round(location[0], acc))
             robot.wheel_left.setVelocity(0)
             robot.wheel_right.setVelocity(0)
             robot.facing = global_variables.WEST
             print('found facing direction: ', robot.facing)
             second = True
         elif round(robot.gps.getValues()[2], acc) < round(location[2], acc):
-            print(round(robot.gps.getValues()[2], acc), end=" < ")
-            print(round(location[2], acc))
             robot.wheel_left.setVelocity(0)
             robot.wheel_right.setVelocity(0)
             robot.facing = global_variables.NORTH
             print('found facing direction: ', robot.facing)
             second = True
         elif round(robot.gps.getValues()[2], acc) > round(location[2], acc):
-            print(round(robot.gps.getValues()[2], acc), end=" > ")
-            print(round(location[2], acc))
             robot.wheel_left.setVelocity(0)
             robot.wheel_right.setVelocity(0)
             robot.facing = global_variables.SOUTH

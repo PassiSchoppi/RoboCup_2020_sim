@@ -162,4 +162,4 @@ def letter_crop_detection(i, j, edit, x_min, y_min, x_max, y_max, width, height)
 
 path = os.path.dirname(os.path.abspath(__file__))
 dataname = path + '/txt_info/'
-print(dataname)
+# print(dataname)

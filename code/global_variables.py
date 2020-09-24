@@ -6,7 +6,7 @@ state = 1
 map_size = 50
 
 hole_colour = b'ppp\xff'
-swamp_colour = b'\x82\xd2\xee\xff'
+swamp_colour = b'\x86\xd7\xf0\xff'
 silver_color = b'\x97\x97\x97\xff'
 
 NORTH = 0
@@ -31,3 +31,5 @@ quarter_rotation_value = 2.15
 
 time_trying = 0
 max_time_trying = 198
+
+victim_proximity = 0.05

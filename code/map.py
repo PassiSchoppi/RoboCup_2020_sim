@@ -1,6 +1,7 @@
 import global_variables
 import robot
 import wall
+import tile
 
 
 # class of Field
@@ -168,6 +169,11 @@ def update_field():
 
     # mark current field as visited
     map_array[robot.position[0]][robot.position[1]].visited = 1
+
+    # get color of current field
+    map_array[robot.position[0]][robot.position[1]].color = tile.color()
+    print('color of current field: ', map_array[robot.position[0]][robot.position[1]].color, end=" / ")
+    print(robot.colour_camera.getImage())
 
     # get distance to nearest unvisited
     for x in range(0, global_variables.map_size):
