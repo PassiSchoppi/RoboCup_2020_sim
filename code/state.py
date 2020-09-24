@@ -23,12 +23,15 @@ def go_forward():
         # mark the field as hole
         map.hole_in_front()
     # if there is a heated victim
-    if victim.on_left() or victim.on_right():
+    if (victim.on_left() or victim.on_right()) and global_variables.time_trying < global_variables.max_time_trying:
         movements.stop()
-        victim.send_message(int(robot.gps.getValues()[0] * 100),
-                            int(robot.gps.getValues()[2] * 100),
-                            bytes('T', "utf-8"))
+        if global_variables.time_trying < 1:
+            victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                int(robot.gps.getValues()[2] * 100),
+                                bytes('T', "utf-8"))
+        global_variables.time_trying = global_variables.time_trying + 1
     else:
+        global_variables.time_trying = 0
         # if not take_image.take_picture(robot.cameraC, debug=False) == 'e':
         #     # movements.stop()
         #     print('found vis victim')
@@ -37,105 +40,141 @@ def go_forward():
         #                             int(robot.gps.getValues()[2] * 100),
         #                             bytes('H', "utf-8"))
         # else:
-        movements.drive_straight()
-    # determine how far to drive
-    distance_to_drive = 0
-    if robot.facing == global_variables.NORTH:
-        distance_to_drive = robot.gps.getValues()[2] - (robot.latest_gps_position[2] - global_variables.field_size)
-    if robot.facing == global_variables.EAST:
-        distance_to_drive = - robot.gps.getValues()[0] + (robot.latest_gps_position[0] + global_variables.field_size)
-    if robot.facing == global_variables.SOUTH:
-        distance_to_drive = - robot.gps.getValues()[2] + (robot.latest_gps_position[2] + global_variables.field_size)
-    if robot.facing == global_variables.WEST:
-        distance_to_drive = robot.gps.getValues()[0] - (robot.latest_gps_position[0] - global_variables.field_size)
-    if distance_to_drive <= 0:
-        # when he is done with going forward
-        # then change location on map
-        map.move_to(robot.facing)
-        print('done going forward')
-        # decide new state
-        global_variables.state = 1
+        # determine how far to drive
+        distance_to_drive = 0
+        if robot.facing == global_variables.NORTH:
+            distance_to_drive = robot.gps.getValues()[2] - (robot.latest_gps_position[2] - global_variables.field_size)
+        if robot.facing == global_variables.EAST:
+            distance_to_drive = - robot.gps.getValues()[0] + (
+                        robot.latest_gps_position[0] + global_variables.field_size)
+        if robot.facing == global_variables.SOUTH:
+            distance_to_drive = - robot.gps.getValues()[2] + (
+                        robot.latest_gps_position[2] + global_variables.field_size)
+        if robot.facing == global_variables.WEST:
+            distance_to_drive = robot.gps.getValues()[0] - (robot.latest_gps_position[0] - global_variables.field_size)
+        if distance_to_drive <= 0:
+            movements.stop()
+            # when he is done with going forward
+            # then change location on map
+            map.move_to(robot.facing)
+            print('done going forward')
+            # decide new state
+            global_variables.state = 1
+        else:
+            movements.drive_straight()
+
     return 0
 
 
 def turn_right():
-    if victim.on_left() or victim.on_right():
+    if (victim.on_left() or victim.on_right()) and global_variables.time_trying < global_variables.max_time_trying:
         movements.stop()
-        victim.send_message(int(robot.gps.getValues()[0] * 100),
-                            int(robot.gps.getValues()[2] * 100),
-                            bytes('T', "utf-8"))
+        if global_variables.time_trying < 1:
+            victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                int(robot.gps.getValues()[2] * 100),
+                                bytes('T', "utf-8"))
+        global_variables.time_trying = global_variables.time_trying + 1
     else:
-        movements.turn_right()
-    distance_to_drive = (robot.left_pos_sensor.getValue() - robot.latest_lws_value) - (
+        distance_to_drive = (robot.left_pos_sensor.getValue() - robot.latest_lws_value) - (
                 robot.right_pos_sensor.getValue() - robot.latest_rws_value)
-    if distance_to_drive >= 2 * global_variables.quarter_rotation_value:
-        global_variables.state = 2
-        robot.facing = map.convert_compass_direction(global_variables.RIGHT)
-        print('done turning right')
+        if distance_to_drive >= 2 * global_variables.quarter_rotation_value:
+            movements.stop()
+            global_variables.state = 2
+            robot.facing = map.convert_compass_direction(global_variables.RIGHT)
+            print('done turning right')
+        else:
+            if global_variables.time_trying == 0:
+                movements.turn_right()
+            else:
+                movements.turn_right(3)
+        global_variables.time_trying = 0
+
     return 0
 
 
 def turn_left():
-    if victim.on_left() or victim.on_right():
+    if (victim.on_left() or victim.on_right()) and global_variables.time_trying < global_variables.max_time_trying:
         movements.stop()
-        victim.send_message(int(robot.gps.getValues()[0] * 100),
-                            int(robot.gps.getValues()[2] * 100),
-                            bytes('T', "utf-8"))
+        if global_variables.time_trying < 1:
+            victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                int(robot.gps.getValues()[2] * 100),
+                                bytes('T', "utf-8"))
+        global_variables.time_trying = global_variables.time_trying + 1
     else:
-        movements.turn_left()
-    distance_to_drive = (robot.right_pos_sensor.getValue() - robot.latest_rws_value) - (
-            robot.left_pos_sensor.getValue() - robot.latest_lws_value)
-    if distance_to_drive >= 2 * global_variables.quarter_rotation_value:
-        global_variables.state = 2
-        robot.facing = map.convert_compass_direction(global_variables.LEFT)
-        print('done turning left')
+        distance_to_drive = (robot.right_pos_sensor.getValue() - robot.latest_rws_value) - (
+                robot.left_pos_sensor.getValue() - robot.latest_lws_value)
+        if distance_to_drive >= 2 * global_variables.quarter_rotation_value:
+            global_variables.state = 2
+            robot.facing = map.convert_compass_direction(global_variables.LEFT)
+            print('done turning left')
+        else:
+            if global_variables.time_trying == 0:
+                movements.turn_left()
+            else:
+                movements.turn_left(3)
+        global_variables.time_trying = 0
+
     return 0
 
 
 def go_back():
     # turn left
-    if victim.on_left() or victim.on_right():
+    if (victim.on_left() or victim.on_right()) and global_variables.time_trying < global_variables.max_time_trying:
         movements.stop()
-        victim.send_message(int(robot.gps.getValues()[0] * 100),
-                            int(robot.gps.getValues()[2] * 100),
-                            bytes('T', "utf-8"))
+        if global_variables.time_trying < 1:
+            victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                int(robot.gps.getValues()[2] * 100),
+                                bytes('T', "utf-8"))
+        global_variables.time_trying = global_variables.time_trying + 1
     else:
-        movements.turn_left()
-    distance_to_drive = (robot.right_pos_sensor.getValue() - robot.latest_rws_value) - (
-            robot.left_pos_sensor.getValue() - robot.latest_lws_value)
-    if distance_to_drive >= 2 * global_variables.quarter_rotation_value:
-        # turn left second time
-        global_variables.state = 4
-        robot.facing = map.convert_compass_direction(global_variables.LEFT)
-        # reset latest rotation sensor values
-        print('updating latest wheel sensor values')
-        robot.latest_lws_value = robot.left_pos_sensor.getValue()
-        robot.latest_rws_value = robot.right_pos_sensor.getValue()
-        print('done turning left (1/2)')
+        distance_to_drive = (robot.right_pos_sensor.getValue() - robot.latest_rws_value) - (
+                robot.left_pos_sensor.getValue() - robot.latest_lws_value)
+        if distance_to_drive >= 2 * global_variables.quarter_rotation_value:
+            # turn left second time
+            movements.stop()
+            global_variables.state = 4
+            robot.facing = map.convert_compass_direction(global_variables.LEFT)
+            # reset latest rotation sensor values
+            print('updating latest wheel sensor values')
+            robot.latest_lws_value = robot.left_pos_sensor.getValue()
+            robot.latest_rws_value = robot.right_pos_sensor.getValue()
+            print('done turning left (1/2)')
+        else:
+            if global_variables.time_trying == 0:
+                movements.turn_left()
+            else:
+                movements.turn_left(3)
+        global_variables.time_trying = 0
     return 0
 
 
 def flee_back():
-    if victim.on_left() or victim.on_right():
+    if (victim.on_left() or victim.on_right()) and global_variables.time_trying < global_variables.max_time_trying:
         movements.stop()
-        victim.send_message(int(robot.gps.getValues()[0] * 100),
-                            int(robot.gps.getValues()[2] * 100),
-                            bytes('T', "utf-8"))
+        if global_variables.time_trying < 1:
+            victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                int(robot.gps.getValues()[2] * 100),
+                                bytes('T', "utf-8"))
+        global_variables.time_trying = global_variables.time_trying + 1
     else:
-        movements.drive_back()
-    # when he sees a black tile
-    distance_to_drive = 0
-    if robot.facing == global_variables.NORTH:
-        distance_to_drive = - robot.gps.getValues()[2] + robot.latest_gps_position[2]
-    if robot.facing == global_variables.EAST:
-        distance_to_drive = + robot.gps.getValues()[0] - robot.latest_gps_position[0]
-    if robot.facing == global_variables.SOUTH:
-        distance_to_drive = + robot.gps.getValues()[2] - robot.latest_gps_position[2]
-    if robot.facing == global_variables.WEST:
-        distance_to_drive = - robot.gps.getValues()[0] + robot.latest_gps_position[0]
-    if distance_to_drive <= 0:
-        # decide new state
-        global_variables.state = 1
+        global_variables.time_trying = 0
+        # when he sees a black tile
+        distance_to_drive = 0
+        if robot.facing == global_variables.NORTH:
+            distance_to_drive = - robot.gps.getValues()[2] + robot.latest_gps_position[2]
+        if robot.facing == global_variables.EAST:
+            distance_to_drive = + robot.gps.getValues()[0] - robot.latest_gps_position[0]
+        if robot.facing == global_variables.SOUTH:
+            distance_to_drive = + robot.gps.getValues()[2] - robot.latest_gps_position[2]
+        if robot.facing == global_variables.WEST:
+            distance_to_drive = - robot.gps.getValues()[0] + robot.latest_gps_position[0]
+        if distance_to_drive <= 0:
+            # decide new state
+            movements.stop()
+            global_variables.state = 1
+        else:
+            movements.drive_back()
+
     return 0
 
 

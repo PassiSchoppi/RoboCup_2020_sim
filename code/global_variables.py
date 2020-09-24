@@ -1,4 +1,4 @@
-timeStep = 32
+timeStep = 16
 
 state = 1
 
@@ -26,5 +26,8 @@ SILVER = 3
 
 found_vis_victim = False
 
-field_size = 0.113
+field_size = 0.118
 quarter_rotation_value = 2.15
+
+time_trying = 0
+max_time_trying = 198

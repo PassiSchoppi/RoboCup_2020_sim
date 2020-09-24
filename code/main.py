@@ -91,7 +91,7 @@ while robot.robot.step(global_variables.timeStep) != -1:
     if third:
         # movements.stop()
         # try:
-        #     print(take_image.take_picture(robot.camera, False))
+        # print(take_image.take_picture(robot.cameraC, False))
         # except:
         #     print('Cant process images.')
         # print("left:", smoth_vars(robot.leftSensors[0].getValue()), end="")

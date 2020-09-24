@@ -15,8 +15,6 @@ def drive_straight():
     speeds[1] = max_velocity - .2
     mult = 100
     if robot.facing == global_variables.NORTH:
-        pos_to_go = [robot.latest_gps_position[0] + global_variables.map_size,
-                     robot.latest_gps_position[1] + global_variables.map_size]
         speeds[0] = speeds[0] + mult * (robot.latest_gps_position[0] - robot.gps.getValues()[0])
         speeds[1] = speeds[1] - mult * (robot.latest_gps_position[0] - robot.gps.getValues()[0])
     if robot.facing == global_variables.EAST:
@@ -54,22 +52,22 @@ def drive_back():
     robot.wheel_right.setVelocity(speeds[1])
 
 
-def turn_right():
+def turn_right(speed=0.3):
     # TODO faster turning
     # set left wheel speed
-    speeds[0] = 0.3 * max_velocity
+    speeds[0] = speed * max_velocity
     # set right wheel speed
-    speeds[1] = -0.3 * max_velocity
+    speeds[1] = -speed * max_velocity
     robot.wheel_left.setVelocity(speeds[0])
     robot.wheel_right.setVelocity(speeds[1])
 
 
-def turn_left():
+def turn_left(speed=0.3):
     # TODO faster turning
     # set left wheel speed
-    speeds[0] = -0.3 * max_velocity
+    speeds[0] = -speed * max_velocity
     # set right wheel speed
-    speeds[1] = 0.3 * max_velocity
+    speeds[1] = speed * max_velocity
     robot.wheel_left.setVelocity(speeds[0])
     robot.wheel_right.setVelocity(speeds[1])
 

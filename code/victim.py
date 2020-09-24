@@ -4,13 +4,13 @@ import global_variables
 
 
 def on_left():
-    if robot.left_heat_sensor.getValue() > 37:
+    if robot.left_heat_sensor.getValue() > 35:
         return True
     return False
 
 
 def on_right():
-    if robot.right_heat_sensor.getValue() > 37:
+    if robot.right_heat_sensor.getValue() > 35:
         return True
     return False
 
