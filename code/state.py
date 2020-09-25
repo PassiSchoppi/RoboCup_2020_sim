@@ -23,12 +23,18 @@ def go_forward():
         # mark the field as hole
         map.hole_in_front()
     # if there is a heated victim
-    if (victim.on_left() or victim.on_right()) and global_variables.time_trying < global_variables.max_time_trying:
+    vis = victim.vis_victim()
+    if (victim.on_left() or victim.on_right() or vis) and global_variables.time_trying < global_variables.max_time_trying:
         movements.stop()
         if global_variables.time_trying < 1:
-            victim.send_message(int(robot.gps.getValues()[0] * 100),
-                                int(robot.gps.getValues()[2] * 100),
-                                bytes('T', "utf-8"))
+            if not vis:
+                victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                    int(robot.gps.getValues()[2] * 100),
+                                    bytes('T', "utf-8"))
+            else:
+                victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                    int(robot.gps.getValues()[2] * 100),
+                                    bytes(str(vis), "utf-8"))
         global_variables.time_trying = global_variables.time_trying + 1
     else:
         global_variables.time_trying = 0
@@ -67,12 +73,18 @@ def go_forward():
 
 
 def turn_right():
-    if (victim.on_left() or victim.on_right()) and global_variables.time_trying < global_variables.max_time_trying:
+    vis = victim.vis_victim()
+    if (victim.on_left() or victim.on_right() or vis) and global_variables.time_trying < global_variables.max_time_trying:
         movements.stop()
         if global_variables.time_trying < 1:
-            victim.send_message(int(robot.gps.getValues()[0] * 100),
-                                int(robot.gps.getValues()[2] * 100),
-                                bytes('T', "utf-8"))
+            if not vis:
+                victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                    int(robot.gps.getValues()[2] * 100),
+                                    bytes('T', "utf-8"))
+            else:
+                victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                    int(robot.gps.getValues()[2] * 100),
+                                    bytes(str(vis), "utf-8"))
         global_variables.time_trying = global_variables.time_trying + 1
     else:
         distance_to_drive = (robot.left_pos_sensor.getValue() - robot.latest_lws_value) - (
@@ -93,12 +105,18 @@ def turn_right():
 
 
 def turn_left():
-    if (victim.on_left() or victim.on_right()) and global_variables.time_trying < global_variables.max_time_trying:
+    vis = victim.vis_victim()
+    if (victim.on_left() or victim.on_right() or vis) and global_variables.time_trying < global_variables.max_time_trying:
         movements.stop()
         if global_variables.time_trying < 1:
-            victim.send_message(int(robot.gps.getValues()[0] * 100),
-                                int(robot.gps.getValues()[2] * 100),
-                                bytes('T', "utf-8"))
+            if not vis:
+                victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                    int(robot.gps.getValues()[2] * 100),
+                                    bytes('T', "utf-8"))
+            else:
+                victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                    int(robot.gps.getValues()[2] * 100),
+                                    bytes(str(vis), "utf-8"))
         global_variables.time_trying = global_variables.time_trying + 1
     else:
         distance_to_drive = (robot.right_pos_sensor.getValue() - robot.latest_rws_value) - (
@@ -119,12 +137,18 @@ def turn_left():
 
 def go_back():
     # turn left
-    if (victim.on_left() or victim.on_right()) and global_variables.time_trying < global_variables.max_time_trying:
+    vis = victim.vis_victim()
+    if (victim.on_left() or victim.on_right() or vis) and global_variables.time_trying < global_variables.max_time_trying:
         movements.stop()
         if global_variables.time_trying < 1:
-            victim.send_message(int(robot.gps.getValues()[0] * 100),
-                                int(robot.gps.getValues()[2] * 100),
-                                bytes('T', "utf-8"))
+            if not vis:
+                victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                    int(robot.gps.getValues()[2] * 100),
+                                    bytes('T', "utf-8"))
+            else:
+                victim.send_message(int(robot.gps.getValues()[0] * 100),
+                                    int(robot.gps.getValues()[2] * 100),
+                                    bytes(str(vis), "utf-8"))
         global_variables.time_trying = global_variables.time_trying + 1
     else:
         distance_to_drive = (robot.right_pos_sensor.getValue() - robot.latest_rws_value) - (

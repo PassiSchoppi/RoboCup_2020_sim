@@ -22,6 +22,7 @@ while robot.robot.step(global_variables.timeStep) != -1:
     # get which direction the robot is facing
     if first:
         location = robot.gps.getValues()
+        robot.latest_gps_position = robot.gps.getValues()
         first = False
     if robot.facing == 5:
         robot.wheel_left.setVelocity(movements.max_velocity / 2)
@@ -99,5 +100,8 @@ while robot.robot.step(global_variables.timeStep) != -1:
         # print("right:", smoth_vars(robot.rightSensors[0].getValue()), end="")
         # print("@" * smoth_vars(robot.rightSensors[0].getValue()))
         state.change_state()
+        # print(take_image.take_picture(robot.cameraL, False), end=" : ")
+        # print(take_image.take_picture(robot.cameraC, False), end=" : ")
+        # print(take_image.take_picture(robot.cameraR, False))
         # print(robot.compass)
         # print(robot.colour_camera.getImage())

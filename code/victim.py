@@ -1,6 +1,7 @@
 import robot
 import struct
 import global_variables
+import take_image
 
 
 def on_left():
@@ -13,6 +14,14 @@ def on_right():
     if robot.right_heat_sensor.getValue() > 35:
         return True
     return False
+
+
+def vis_victim():
+    vic = take_image.take_picture(robot.cameraL, False)
+    if not vic == 'e':
+        return vic
+    else:
+        return False
 
 
 # Sends a message to the game controller
