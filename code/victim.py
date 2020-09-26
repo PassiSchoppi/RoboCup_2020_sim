@@ -1,7 +1,7 @@
 import robot
 import struct
 import global_variables
-import math
+import take_image
 
 
 def on_left():
@@ -16,33 +16,12 @@ def on_right():
     return False
 
 
-def visible():
-    obj = robot.cameraC.getRecognitionObjects()
-    for item in obj:
-        # print(item)
-        # print(item.get_position())
-        if math.sqrt((item.get_position()[0] ** 2) + (item.get_position()[2] ** 2)) < global_variables.victim_proximity:
-            # print(item.get_id())
-            return 'U'
-    obj = robot.cameraL.getRecognitionObjects()
-    for item in obj:
-        # print(item.get_position())
-        if math.sqrt((item.get_position()[0] ** 2) + (item.get_position()[2] ** 2)) < global_variables.victim_proximity:
-            return 'U'
-    obj = robot.cameraR.getRecognitionObjects()
-    for item in obj:
-        # print(item.get_position())
-        if math.sqrt((item.get_position()[0] ** 2) + (item.get_position()[2] ** 2)) < global_variables.victim_proximity:
-            return 'U'
-    return False
-
-
-def is_close():
-    if on_left() or on_right():
-        return 'T'
-    if visible():
-        return visible()
-    return 0
+def vis_victim():
+    vic = take_image.take_picture(robot.cameraL, False)
+    if not vic == 'e':
+        return vic
+    else:
+        return False
 
 
 # Sends a message to the game controller

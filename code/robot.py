@@ -41,13 +41,10 @@ right_heat_sensor.enable(global_variables.timeStep)
 # init cameras
 cameraC = robot.getCamera("camera_centre")
 cameraC.enable(global_variables.timeStep)
-cameraC.recognitionEnable(global_variables.timeStep)
 cameraR = robot.getCamera("camera_right")
 cameraR.enable(global_variables.timeStep)
-cameraR.recognitionEnable(global_variables.timeStep)
 cameraL = robot.getCamera("camera_left")
 cameraL.enable(global_variables.timeStep)
-cameraL.recognitionEnable(global_variables.timeStep)
 
 colour_camera = robot.getCamera("colour_sensor")
 colour_camera.enable(global_variables.timeStep)
