@@ -1,6 +1,7 @@
 import global_variables
 import robot
 import wall
+import tile
 
 
 # class of Field

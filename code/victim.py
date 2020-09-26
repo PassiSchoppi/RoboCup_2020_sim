@@ -4,6 +4,7 @@ import global_variables
 import take_image
 
 
+
 def on_left():
     if robot.left_heat_sensor.getValue() > 35:
         return True
