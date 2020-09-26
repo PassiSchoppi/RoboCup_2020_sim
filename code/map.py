@@ -10,7 +10,7 @@ class Field:
         self.walls = walls
         self.visited = visited
         self.color = color
-        self.distance_to_unvisited = 0
+        self.distance_to_unvisited = 1
 
 
 # creating map array
@@ -74,57 +74,6 @@ def hole_in_front():
     return 0
 
 
-def search_for_unvisited(start_point, skip_array):
-    skip_array.append(start_point)
-    if not map_array[start_point[0]][start_point[1]].visited:
-        return 1
-    results = [0, 0, 0, 0]
-
-    # north child
-    child = [start_point[0], start_point[1] + 1]
-    if not map_array[start_point[0]][start_point[1]].walls[global_variables.NORTH] and not (child in skip_array) \
-            and not map_array[child[0]][child[1]].color == global_variables.BLACK:
-        skip_new = skip_array.copy()
-        results[global_variables.NORTH] = search_for_unvisited(child, skip_new)
-    else:
-        results[global_variables.NORTH] = 0
-
-    # east child
-    child = [start_point[0] + 1, start_point[1]]
-    if not map_array[start_point[0]][start_point[1]].walls[global_variables.EAST] and not (child in skip_array) \
-            and not map_array[child[0]][child[1]].color == global_variables.BLACK:
-        skip_new = skip_array.copy()
-        results[global_variables.EAST] = search_for_unvisited(child, skip_new)
-    else:
-        results[global_variables.EAST] = 0
-
-    # south child
-    child = [start_point[0], start_point[1] - 1]
-    if not map_array[start_point[0]][start_point[1]].walls[global_variables.SOUTH] and not (child in skip_array) \
-            and not map_array[child[0]][child[1]].color == global_variables.BLACK:
-        skip_new = skip_array.copy()
-        results[global_variables.SOUTH] = search_for_unvisited(child, skip_new)
-    else:
-        results[global_variables.SOUTH] = 0
-
-    # west child
-    child = [start_point[0] - 1, start_point[1]]
-    if not map_array[start_point[0]][start_point[1]].walls[global_variables.WEST] and not (child in skip_array) \
-            and not map_array[child[0]][child[1]].color == global_variables.BLACK:
-        skip_new = skip_array.copy()
-        results[global_variables.WEST] = search_for_unvisited(child, skip_new)
-    else:
-        results[global_variables.WEST] = 0
-
-    # get nearest
-    result_index = index_of_smallest_element(results)
-    if result_index != 5:
-        # TODO consider swamps with longer time
-        return results[result_index] + 1
-    else:
-        return 0
-
-
 def where_to_drive():
     distances = [0, 0, 0, 0]
     if not map_array[robot.position[0]][robot.position[1]].walls[global_variables.NORTH] \
@@ -145,6 +94,40 @@ def where_to_drive():
 
     print('distances of surrounding fields: ', distances)
     return index_of_smallest_element(distances, with_facing=True)
+
+
+def calc_distance_recursively(x, y, num):
+    map_array[x][y].distance_to_unvisited = num
+
+    # north field
+    if not y >= global_variables.map_size - 1:
+        if not map_array[x][y].walls[global_variables.NORTH] \
+                and not map_array[x][y + 1].color == global_variables.BLACK \
+                and ((map_array[x][y + 1].distance_to_unvisited == 0) or (
+                num + 1 <= map_array[x][y + 1].distance_to_unvisited)):
+            calc_distance_recursively(x, y + 1, num + 1)
+
+    if not x >= global_variables.map_size - 1:
+        if not map_array[x][y].walls[global_variables.EAST] \
+                and not map_array[x + 1][y].color == global_variables.BLACK \
+                and ((map_array[x + 1][y].distance_to_unvisited == 0) or (
+                num + 1 <= map_array[x + 1][y].distance_to_unvisited)):
+            calc_distance_recursively(x + 1, y, num + 1)
+
+    if not y <= 1:
+        if not map_array[x][y].walls[global_variables.SOUTH] \
+                and not map_array[x][y - 1].color == global_variables.BLACK \
+                and ((map_array[x][y - 1].distance_to_unvisited == 0) or (
+                num + 1 <= map_array[x][y - 1].distance_to_unvisited)):
+            calc_distance_recursively(x, y - 1, num + 1)
+
+    if not x <= 1:
+        if not map_array[x][y].walls[global_variables.WEST] \
+                and not map_array[x - 1][y].color == global_variables.BLACK \
+                and ((map_array[x - 1][y].distance_to_unvisited == 0) or (
+                num + 1 <= map_array[x - 1][y].distance_to_unvisited)):
+            calc_distance_recursively(x - 1, y, num + 1)
+    return 0
 
 
 def update_field():
@@ -170,17 +153,21 @@ def update_field():
     # mark current field as visited
     map_array[robot.position[0]][robot.position[1]].visited = 1
 
-    # get color of current field
-    map_array[robot.position[0]][robot.position[1]].color = tile.color()
-    print('color of current field: ', map_array[robot.position[0]][robot.position[1]].color, end=" / ")
-    print(robot.colour_camera.getImage())
-
-    # get distance to nearest unvisited
+    # clear all the distances from the map
     for x in range(0, global_variables.map_size):
         for y in range(0, global_variables.map_size):
-            child = [x, y]
-            skip = []
-            map_array[x][y].distance_to_unvisited = search_for_unvisited(child, skip)
+            # if field IS unvisited
+            if not map_array[x][y].visited:
+                map_array[x][y].distance_to_unvisited = 1
+            else:
+                map_array[x][y].distance_to_unvisited = 0
+
+    # calculate distances to uncvisited
+    for x in range(0, global_variables.map_size):
+        for y in range(0, global_variables.map_size):
+            # if field IS unvisited
+            if not map_array[x][y].visited:
+                calc_distance_recursively(x, y, 1)
 
 
 def move_to(compass):

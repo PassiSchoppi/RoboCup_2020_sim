@@ -27,7 +27,7 @@ SILVER = 3
 found_vis_victim = False
 
 field_size = 0.118
-quarter_rotation_value = 2.15
+quarter_rotation_value = 2.17
 
 time_trying = 0
 max_time_trying = 198

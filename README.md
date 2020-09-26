@@ -4,9 +4,7 @@
 
 Python version 3.7
 
-Python Packages used:
-
-- cv2 (version)
+Python Package: sys
 
 This code has only been tested on [Webots R2020a revision 1](https://github.com/cyberbotics/webots/releases/tag/R2020a-rev1).
 
