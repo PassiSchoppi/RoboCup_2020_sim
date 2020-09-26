@@ -20,8 +20,13 @@ def vis_victim():
     vic = take_image.take_picture(robot.cameraL, False)
     if not vic == 'e':
         return vic
-    else:
-        return False
+    vic = take_image.take_picture(robot.cameraC, False)
+    if not vic == 'e':
+        return vic
+    vic = take_image.take_picture(robot.cameraR, False)
+    if not vic == 'e':
+        return vic
+    return False
 
 
 # Sends a message to the game controller
